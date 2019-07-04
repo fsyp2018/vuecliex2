@@ -1,0 +1,73 @@
+@import "~bootstrap/scss/functions";
+@import "variables.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "./_dashboard";
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .typestyle{
+    width:80%;
+    margin:0 auto 0 auto;
+    font-weight:bold;
+    z-index:10;
+    position: absolute ;
+    top:5%;
+    left:10%;
+  }
+  @media screen and (max-width: 768px) {
+    .typestyle{
+      font-size: 12px;
+    }
+  }
+  .typeing{
+    animation: flip-in 1s 0s ease-in-out both;
+  }
+  @keyframes flip-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  // 加這個是不知道為什麼在開起登入介面時，會無法讓輸入介面再上層
+  .modal-backdrop{
+    z-index: 50;
+  }
+  .nub{
+    position: relative;
+    color: white;
+    background-color: red;
+    bottom: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    padding: 1px 5px;
+    border-radius: 100%;
+  }
