@@ -39,112 +39,17 @@
     </div>
   </div>
 </nav>
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <form class="modal-content" @submit.prevent="signin">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">請先登入</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <div class="checkbox mb-3">
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input
-        type="email"
-        id="inputEmail"
-        class="form-control"
-        placeholder="Email address"
-        required
-        autofocus
-        v-model="user.username"
-      >
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input
-        type="password"
-        id="inputPassword"
-        class="form-control"
-        placeholder="Password"
-        required
-        v-model="user.password"
-      >
-      <div class="text-danger" v-if="confirmuser">帳號或密碼錯誤</div>
-      </div>
-      </div>
-      <div class="modal-footer">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </div>
-    </form>
-  </div>
-</div>
+<!-- LoginModal -->
+<LoginModal :user="user" :confirmuser="confirmuser" @signin="signin"/>
 <!-- 開起購物車model -->
-<div class="modal fade" id="shoppingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <form class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">購物清單</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" style="padding:0 10px 0 10px">
-      <div >
-<div>
-      <div>
-        <table class="table">
-          <thead>
-            <th></th>
-            <th>品名</th>
-            <th>數量</th>
-            <th>單價</th>
-          </thead>
-          <tbody>
-            <tr v-for="item in cart.carts" :key="item.id">
-              <td class="align-middle">
-                <button
-                  type="button"
-                  class="btn btn-outline-danger btn-sm"
-                  @click="removeCartItem(item.id,item.product.title,item.qty)"
-                >
-                  <i class="far fa-trash-alt"></i>
-                </button>
-              </td>
-              <td class="align-middle">
-                {{ item.product.title }}
-                <div class="text-success" v-if="item.coupon">已套用優惠券</div>
-              </td>
-              <td class="align-middle">{{ item.qty }}/{{ item.product.unit }}</td>
-              <td class="align-middle text-right">{{ item.final_total }}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="3" class="text-right">總計</td>
-              <td class="text-right">{{ cart.total }}</td>
-            </tr>
-            <tr v-if="cart.final_total !== cart.total">
-              <td colspan="3" class="text-right text-success">折扣價</td>
-              <td class="text-right text-success">{{ cart.final_total }}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-      </div>
-      </div>
-      <div class="modal-footer">
-      <button class="btn btn-lg btn-primary btn-block" @click="fillin">結帳去</button>
-      </div>
-    </form>
-  </div>
-</div>
+<ShoppingModal :cart="cart" @fillin="fillin" @removeCartItem="removeCartItem"/>
     </div>
 </template>
 
 <script>
 import $ from 'jquery'
+import LoginModal from '../components/LoginModal.vue'
+import ShoppingModal from '../components/ShoppingModal.vue'
 export default {
   data () {
     return {
@@ -211,6 +116,10 @@ export default {
   created () {
     const vm = this
     vm.getCart()
+  },
+  components: {
+    LoginModal,
+    ShoppingModal
   }
 }
 </script>
