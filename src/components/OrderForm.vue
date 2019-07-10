@@ -1,6 +1,6 @@
 <template>
   <div>
-      <loading :active.sync="isLoading"></loading>
+      <!-- <loading :active.sync="isLoading"></loading> -->
     <div class="my-5 row justify-content-center">
       <div class="col-md-6">
         <table class="table">
@@ -16,7 +16,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-danger btn-sm"
-                  @click="removeCartItem(item.id)"
+                  @click="removeCartItem(item.id,item.product.title,item.qty)"
                 >
                   <i class="far fa-trash-alt"></i>
                 </button>
@@ -128,10 +128,11 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data () {
     return {
-      cart: {},
       coupon_code: '',
       form: {
         user: {
@@ -141,30 +142,14 @@ export default {
           address: ''
         },
         message: ''
-      },
-      isLoading: false
+      }
+      // isLoading: false
     }
   },
   methods: {
-    getCart () {
-      const vm = this
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart`
-      vm.isLoading = true
-      this.$http.get(url).then(response => {
-        console.log(response.data)
-        vm.cart = response.data.data
-        vm.isLoading = false
-      })
-    },
-    removeCartItem (id) {
-      const vm = this
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart/${id}`
-      vm.isLoading = true
-      this.$http.delete(url).then(() => {
-        this.$bus.$emit('messsage:push', '刪除成功', 'danger')
-        vm.getCart()
-        vm.isLoading = false
-      })
+    ...mapActions('cartModules', ['getCart']),
+    removeCartItem (id, title, qty) {
+      this.$store.dispatch('cartModules/removeCartItem', { id, title, qty })
     },
     addCouponCode () {
       const vm = this
@@ -172,18 +157,18 @@ export default {
       const coupon = {
         code: vm.coupon_code
       }
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.post(url, { data: coupon }).then(response => {
         console.log(response)
         vm.getCart()
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     createOrder () {
       const vm = this
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/order`
       const order = vm.form
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       // 表單驗證程式碼
       this.$validator.validate().then((result) => {
         if (result) {
@@ -192,11 +177,12 @@ export default {
             if (response.data.success) {
               vm.$router.push(`/ordercheckout/${response.data.orderId}`)
             }
-            vm.isLoading = false
+            vm.$store.dispatch('updateLoading', false)
           })
         } else {
-          console.log('欄位不完整')
-          vm.isLoading = false
+          // console.log('欄位不完整')
+          this.$bus.$emit('messsage:push', '欄位不完整', 'danger')
+          vm.$store.dispatch('updateLoading', false)
         }
       })
     }
@@ -204,6 +190,9 @@ export default {
   created () {
     const vm = this
     vm.getCart()
+  },
+  computed: {
+    ...mapGetters('cartModules', ['cart'])
   }
 }
 </script>

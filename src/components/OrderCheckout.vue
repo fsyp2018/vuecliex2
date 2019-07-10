@@ -73,24 +73,24 @@ export default {
     getOrder () {
       const vm = this
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/order/${vm.orderId}`
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(url).then(response => {
-        console.log(response)
+        // console.log(response)
         vm.order = response.data.order
         vm.is_paid = response.data.order.is_paid
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     payOrder () {
       const vm = this
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/pay/${vm.orderId}`
-      // vm.isLoading = true;
+      vm.$store.dispatch('updateLoading', true)
       this.$http.post(url).then(response => {
-        console.log(response)
-
-        // vm.isLoading = false;
+        // console.log(response)
+        vm.$store.dispatch('updateLoading', false)
         if (response.data.success) {
           vm.getOrder()
+          this.$store.dispatch('cartModules/getCart')
         }
       })
     }
@@ -98,7 +98,6 @@ export default {
   created () {
     const vm = this
     vm.orderId = this.$route.params.orderId
-    console.log(this.orderId)
     vm.getOrder()
   }
 }

@@ -1,6 +1,6 @@
 <template>
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-          <loading :active.sync="isLoading"></loading>
+          <!-- <loading :active.sync="isLoading"></loading> -->
     <!-- 產品列表 -->
     <table class="table mt-4">
       <thead>
@@ -32,15 +32,15 @@ import NumInput from './NumInput.vue'
 export default {
   data () {
     return {
-      products: [],
-      isLoading: false
+      products: []
+      // isLoading: false
     }
   },
   methods: {
     getProducts () {
       const vm = this
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/products/all`
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(api).then(response => {
         vm.products = response.data.products.filter(item => {
           if (item.category === '盾') {
@@ -50,20 +50,21 @@ export default {
         for (let i = vm.products.length - 1; i >= 0; i--) {
           vm.products[i].num = '1'
         }
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     addtoCart (id, qty, title) {
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart`
-      const cart = {
-        product_id: id,
-        qty
-      }
-      // console.log(cart)
-      this.$http.post(url, { data: cart }).then(response => {
-        this.$bus.$emit('messsage:push', title + qty + '個已加到購物車中', 'success')
-        console.log(response)
-      })
+      this.$store.dispatch('cartModules/addtoCart', { id, qty, title })
+      // const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart`
+      // const cart = {
+      //   product_id: id,
+      //   qty
+      // }
+      // // console.log(cart)
+      // this.$http.post(url, { data: cart }).then(response => {
+      //   this.$bus.$emit('messsage:push', title + qty + '個已加到購物車中', 'success')
+      //   console.log(response)
+      // })
     },
     nchange (count) {
       const vm = this

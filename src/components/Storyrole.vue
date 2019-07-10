@@ -1,6 +1,6 @@
 <template>
     <div>
-      <loading :active.sync="isLoading"></loading>
+      <!-- <loading :active.sync="isLoading"></loading> -->
       <h3 class="ml-3 mr-3 mt-3">在光之戰士的故事中，一路上遇到的人物，有時他們的情報會起到關鍵性的作用。</h3>
 <div class="card mb-3 ml-3 mr-3 mt-3 " style="flex-direction:row;border:3px #AAAAAA ridge;border-radius:10px;font-size:24px;" v-for="(item) in products" :key="item.id">
   <img :src="item.imageUrl" class="card-img-top" style="width:auto;height:300px;">
@@ -13,31 +13,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      products: [],
-      isLoading: false
+      selitem: '劇情人物'
     }
   },
   methods: {
-    getProducts () {
-      const vm = this
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/products/all`
-      vm.isLoading = true
-      this.$http.get(api).then(response => {
-        vm.products = response.data.products.filter(item => {
-          if (item.category === '劇情人物') {
-            return true
-          }
-        })
-        vm.isLoading = false
-      })
+    getProducts (selitem) {
+      this.$store.dispatch('productsModules/getProducts', selitem)
     }
   },
   created () {
     const vm = this
-    vm.getProducts()
+    vm.getProducts(vm.selitem)
+  },
+  computed: {
+    ...mapGetters('productsModules', ['products'])
   }
 }
 </script>

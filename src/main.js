@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -13,6 +14,7 @@ import dateFilter from './filters/date.js'
 import VeeValidate from 'vee-validate'
 import zhWValidate from 'vee-validate/dist/locale/zh_TW'
 
+Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 axios.defaults.withCredentials = true
@@ -34,7 +36,7 @@ router.beforeEach((to, from, next) => {
     const api = `${process.env.VUE_APP_API}/api/user/check`
 
     axios.post(api).then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
       if (response.data.success) {
         next()
       } else {

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <loading :active.sync="isLoading"></loading>
+      <!-- <loading :active.sync="isLoading"></loading> -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <router-link to="/">
             <a class="bg-light" href="#"><img src="../assets/img/logo.png" alt="" srcset="" style="width:85px;"></a>
@@ -50,6 +50,7 @@
 import $ from 'jquery'
 import LoginModal from '../components/LoginModal.vue'
 import ShoppingModal from '../components/ShoppingModal.vue'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -57,11 +58,10 @@ export default {
         username: '',
         password: ''
       },
-      cart: {},
+      // cart: {},
       confirmuser: false,
-      nub: 0,
-      coupon_code: '',
-      isLoading: false
+      // nub: 0,
+      coupon_code: ''
     }
   },
   methods: {
@@ -89,28 +89,39 @@ export default {
       })
     },
     fillin () {
-      const vm = this
       $('#shoppingModal').modal('hide')
-      vm.$router.push('/orderform')
+      this.$router.push('/orderform')
     },
-    getCart () {
-      const vm = this
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart`
-      vm.isLoading = true
-      this.$http.get(url).then(response => {
-        console.log(response.data)
-        vm.cart = response.data.data
-        vm.nub = response.data.data.carts.length
-        vm.isLoading = false
-      })
-    },
+    // 區域時
+    ...mapActions('cartModules', ['getCart']),
+    // 全域時
+    // ...mapActions(['getCart']),
+    // 如果有參數的話，還是要用下面執行
+    // getCart () {
+    //   this.$store.dispatch('getCart')
+    //   // const vm = this
+    //   // const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart`
+    //   // // vm.isLoading = true
+    //   // vm.$store.dispatch('updateLoading', true)
+    //   // this.$http.get(url).then(response => {
+    //   //   // console.log(response.data)
+    //   //   vm.cart = response.data.data
+    //   //   vm.nub = response.data.data.carts.length
+    //   //   // vm.isLoading = false
+    //   //   vm.$store.dispatch('updateLoading', false)
+    //   // })
+    // },
     removeCartItem (id, title, qty) {
-      const vm = this
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart/${id}`
-      this.$http.delete(url).then(() => {
-        this.$bus.$emit('messsage:push', title + qty + '個刪除成功', 'danger')
-        vm.getCart()
-      })
+      // 區域時
+      this.$store.dispatch('cartModules/removeCartItem', { id, title, qty })
+      // 全域時
+      // this.$store.dispatch('removeCartItem', { id, title, qty })
+      // const vm = this
+      // const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOM}/cart/${id}`
+      // this.$http.delete(url).then(() => {
+      //   this.$bus.$emit('messsage:push', title + qty + '個刪除成功', 'danger')
+      //   vm.getCart()
+      // })
     }
   },
   created () {
@@ -120,6 +131,18 @@ export default {
   components: {
     LoginModal,
     ShoppingModal
+  },
+  computed: {
+    // 區域時
+    ...mapGetters('cartModules', ['cart', 'nub'])
+    // 全域時
+    // ...mapGetters(['cart', 'nub'])
+    // cart () {
+    //   return this.$store.state.cart
+    // },
+    // nub () {
+    //   return this.$store.state.nub
+    // }
   }
 }
 </script>
