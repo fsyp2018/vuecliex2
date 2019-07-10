@@ -90,7 +90,7 @@ export default {
     },
     fillin () {
       $('#shoppingModal').modal('hide')
-      this.$router.push('/orderform')
+      // this.$router.push('/orderform')
     },
     // 區域時
     ...mapActions('cartModules', ['getCart']),

@@ -55,7 +55,9 @@
       </div>
       </div>
       <div class="modal-footer">
+      <router-link to="/orderform" class="nav-link">
       <button class="btn btn-lg btn-primary btn-block" @click="fillin">結帳去</button>
+      </router-link>
       </div>
     </form>
   </div>
