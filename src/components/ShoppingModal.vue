@@ -26,7 +26,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-danger btn-sm"
-                  @click="removeCartItem(item.id,item.product.title,item.qty)"
+                  @click.prevent="removeCartItem(item.id,item.product.title,item.qty)"
                 >
                   <i class="far fa-trash-alt"></i>
                 </button>

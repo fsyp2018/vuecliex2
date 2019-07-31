@@ -15,7 +15,7 @@
       <input
         type="email"
         id="inputEmail"
-        class="form-control"
+        class="form-control mb-3"
         placeholder="Email address"
         required
         autofocus

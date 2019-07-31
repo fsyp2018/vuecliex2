@@ -1,6 +1,7 @@
 <template>
   <div>
       <!-- <loading :active.sync="isLoading"></loading> -->
+      <div style="overflow-x: hidden">
     <div class="my-5 row justify-content-center">
       <div class="col-md-6">
         <table class="table">
@@ -16,7 +17,7 @@
                 <button
                   type="button"
                   class="btn btn-outline-danger btn-sm"
-                  @click="removeCartItem(item.id,item.product.title,item.qty)"
+                  @click.prevent="removeCartItem(item.id,item.product.title,item.qty)"
                 >
                   <i class="far fa-trash-alt"></i>
                 </button>
@@ -123,6 +124,7 @@
           <button class="btn btn-danger">送出訂單</button>
         </div>
       </form>
+    </div>
     </div>
   </div>
 </template>

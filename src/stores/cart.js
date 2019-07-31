@@ -47,9 +47,11 @@ export default {
         product_id: id,
         qty
       }
+      context.commit('LOADING', true, { root: true })
       axios.post(url, { data: cart }).then(response => {
         new Vue().$bus.$emit('messsage:push', title + qty + '個已加到購物車中', 'success')
         context.dispatch('getCart')
+        context.commit('LOADING', false, { root: true })
       })
     }
   },

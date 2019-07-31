@@ -65,11 +65,6 @@ export default new Router({
       ]
     },
     {
-      path: '/test',
-      name: 'test',
-      component: () => import('./components/test.vue')
-    },
-    {
       path: '/admin',
       name: 'Dashboard',
       component: () => import('./views/Dashboard.vue'),
