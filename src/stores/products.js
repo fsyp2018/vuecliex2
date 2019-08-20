@@ -9,6 +9,15 @@ export default {
   mutations: {
     PRODUCTS (state, payload) {
       state.products = payload
+      // console.log(state.products.length)
+      for (let i = state.products.length - 1; i >= 0; i--) {
+        state.products[i].num = '1'
+      }
+    },
+    CHANGE (state, payload) {
+      const pnum = payload[0]
+      const pindex = payload[1]
+      state.products[pindex].num = pnum
     }
   },
   actions: {
@@ -23,6 +32,9 @@ export default {
         }))
         context.commit('LOADING', false, { root: true })
       })
+    },
+    nchange (context, payload) {
+      context.commit('CHANGE', payload)
     }
   },
   getters: {

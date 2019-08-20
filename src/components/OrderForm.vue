@@ -175,7 +175,7 @@ export default {
       this.$validator.validate().then((result) => {
         if (result) {
           this.$http.post(url, { data: order }).then(response => {
-            console.log('訂單已建立', response)
+            // console.log('訂單已建立', response)
             if (response.data.success) {
               vm.$router.push(`/ordercheckout/${response.data.orderId}`)
             }

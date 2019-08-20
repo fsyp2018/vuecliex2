@@ -26,7 +26,7 @@
             </router-link>
       </li>
       <li class="nav-item mr-3 ml-3">
-        <router-link to="/buyitem">
+        <router-link to="/PurchaseItem">
         <button type="button" class="btn btn-secondary">商品購買</button>
         </router-link>
       </li>

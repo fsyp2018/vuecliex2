@@ -41,27 +41,32 @@ export default new Router({
           component: () => import('./components/OrderCheckout.vue')
         },
         {
-          path: 'buyitem',
-          name: 'BuyItem',
-          component: () => import('./views/BuyItem.vue'),
-          children: [
-            {
-              path: '/',
-              name: 'Sword',
-              component: () => import('./components/Sword.vue')
-            },
-            {
-              path: 'shield',
-              name: 'Shield',
-              component: () => import('./components/Shield.vue')
-            },
-            {
-              path: 'prop',
-              name: 'Prop',
-              component: () => import('./components/Prop.vue')
-            }
-          ]
+          path: 'PurchaseItem',
+          name: 'PurchaseItem',
+          component: () => import('./components/PurchaseItem.vue')
         }
+        // {
+        //   path: 'buyitem',
+        //   name: 'BuyItem',
+        //   component: () => import('./views/BuyItem.vue'),
+        //   children: [
+        //     {
+        //       path: '/',
+        //       name: 'Sword',
+        //       component: () => import('./components/Sword.vue')
+        //     },
+        //     {
+        //       path: 'shield',
+        //       name: 'Shield',
+        //       component: () => import('./components/Shield.vue')
+        //     },
+        //     {
+        //       path: 'prop',
+        //       name: 'Prop',
+        //       component: () => import('./components/Prop.vue')
+        //     }
+        //   ]
+        // }
       ]
     },
     {

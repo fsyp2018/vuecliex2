@@ -103,7 +103,7 @@ export default {
       const vm = this
       vm.selitem = sel
       vm.getProducts(vm.selitem)
-      console.log(vm.selitem)
+    //   console.log(vm.selitem)
     }
   },
   created () {
